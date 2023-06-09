@@ -1,5 +1,6 @@
 ﻿@page "/Gerenciar_Usuario"
 @using BlazorApp1.Client.Services
+@using BlazorApp1.Client.Shared.Inputs
 @using BlazorApp1.Client.Entities
 @using System.Collections.ObjectModel;
 @inject ClienteService ClienteService
@@ -8,21 +9,92 @@
 
 <h1>Gerenciar Usuários</h1>
 
+<div class="container">
+	<div class="row">
 <EditForm Model="novoCliente" OnValidSubmit="CreateClient">
-	<InputText @bind-Value="novoCliente.Nome" placeholder="Nome" />
-	<InputText @bind-Value="novoCliente.Email" placeholder="Email" />
-	<InputText @bind-Value="novoCliente.Cpf" placeholder="CPF" />
-	<InputText @bind-Value="novoCliente.Endereco" placeholder="Endereço" />
-	<InputText @bind-Value="novoCliente.Telefone" placeholder="Telefone" />
-	<InputText @bind-Value="novoCliente.Celular" placeholder="Celular" />
-	<InputText @bind-Value="novoCliente.Habilitacao" placeholder="Habilitação" />
-	<InputText @bind-Value="novoCliente.CategoriaHabilitacao" placeholder="Categoria Habilitação" />
-	<InputText @bind-Value="novoCliente.Email" placeholder="Email" />
-	<InputDate @bind-Value="novoCliente.DataNascimento" placeholder="Data de nascimento" />
-	<InputText @bind-Value="novoCliente.Senha" placeholder="Senha" type="password" />
+	<LabInputText Id="nomeCliente"
+				  Label="Nome"
+				  Tip="Digite seu nome completo"
+				  PlaceHolder="Nome"
+				  Size="@size"
+	@bind-Value="novoCliente.Nome" />
+
+	<LabInputText Id="emailCliente"
+				  Label="Email"
+				  Tip="Digite seu email"
+				  PlaceHolder="Email"
+				  Size="@size"
+	@bind-Value="novoCliente.Email" />
+
+	<LabInputText Id="cpfCliente"
+				  Label="CPF"
+				  Tip="Digite seu CPF"
+				  PlaceHolder="CPF"
+				  Size="@size"
+	@bind-Value="novoCliente.Cpf" />
+
+	<LabInputText Id="enderecoCliente"
+				  Label="Endereço"
+				  Tip="Digite seu endereço"
+				  PlaceHolder="Endereço"
+				  Size="@size"
+	@bind-Value="novoCliente.Endereco" />
+
+	<LabInputText Id="telefoneCliente"
+				  Label="Telefone"
+				  Tip="Digite seu telefone"
+				  PlaceHolder="Telefone"
+				  Size="@size"
+	@bind-Value="novoCliente.Telefone" />
+
+	<LabInputText Id="celularCliente"
+				  Label="Celular"
+				  Tip="Digite seu celular"
+				  PlaceHolder="Celular"
+				  Size="@size"
+	@bind-Value="novoCliente.Celular" />
+
+	<LabInputText Id="habilitacaoCliente"
+				  Label="Habilitação"
+				  Tip="Digite sua habilitação"
+				  PlaceHolder="Habilitação"
+				  Size="@size"
+	@bind-Value="novoCliente.Habilitacao" />
+
+	<LabInputText Id="categoriaHabilitacaoCliente"
+				  Label="Categoria Habilitação"
+				  Tip="Digite a categoria da sua habilitação"
+				  PlaceHolder="Categoria Habilitação"
+				  Size="@size"
+	@bind-Value="novoCliente.CategoriaHabilitacao" />
+
+	<LabInputText Id="emailCliente"
+				  Label="Email"
+				  Tip="Digite seu email"
+				  PlaceHolder="Email"
+				  Size="@size"
+	@bind-Value="novoCliente.Email" />
+
+	<LabInputDate Id="dataNascimentoCliente"
+				  Label="Data de Nascimento"
+				  Tip="Digite sua data de nascimento"
+				  PlaceHolder="Data de nascimento"
+				  Size="@size"
+	@bind-Value="novoCliente.DataNascimento" />
+
+	@*<InputText @bind-Value="novoCliente.Senha" placeholder="Senha" type="password" />*@
+	<LabInputText Id="senhaCliente"
+				  Label="Senha"
+				  Tip="Digite sua senha"
+				  PlaceHolder="Senha"
+				  Size="@size"
+	@bind-Value="novoCliente.Senha" />
+
+
 	<button type="submit">Adicionar Cliente</button>
 </EditForm>
-
+	</div>
+</div>
 
 <!-- Listar os clientes -->
 <h2>Lista de Clientes</h2>
@@ -80,6 +152,9 @@ else
 }
 
 @code {
+	int size = 3;
+
+
 	private Cliente novoCliente = new Cliente(
 		id: 0,
 		cpf: string.Empty,
@@ -106,7 +181,7 @@ else
 	{
 		ClienteService.Clientes.Add(novoCliente);
 		novoCliente = new Cliente(
-			id: 0,
+			id: 99,
 			cpf: string.Empty,
 			nome: string.Empty,
 			endereco: string.Empty,

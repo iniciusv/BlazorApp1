@@ -2,6 +2,7 @@
 @using BlazorApp1.Client.Services
 @using BlazorApp1.Client.Entities
 @using System.Collections.ObjectModel;
+@using BlazorApp1.Client.Shared.Inputs
 @inject ClienteService ClienteService
 
 <PageTitle>Counter</PageTitle>
@@ -12,6 +13,7 @@
 
 <EditForm Model="cliente" OnValidSubmit="CreateClient">
     <div class="form-group">
+
         <label for="nome">Nome:</label>
         <InputText id="nome" @bind-Value="cliente.Nome" class="form-control" />
 
