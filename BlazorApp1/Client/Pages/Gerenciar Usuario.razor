@@ -1,0 +1,138 @@
+﻿@page "/Gerenciar_Usuario"
+@using BlazorApp1.Client.Services
+@using BlazorApp1.Client.Entities
+@using System.Collections.ObjectModel;
+@inject ClienteService ClienteService
+
+<PageTitle>Gerenciar Usuários</PageTitle>
+
+<h1>Gerenciar Usuários</h1>
+
+<EditForm Model="novoCliente" OnValidSubmit="CreateClient">
+	<InputText @bind-Value="novoCliente.Nome" placeholder="Nome" />
+	<InputText @bind-Value="novoCliente.Email" placeholder="Email" />
+	<InputText @bind-Value="novoCliente.Cpf" placeholder="CPF" />
+	<InputText @bind-Value="novoCliente.Endereco" placeholder="Endereço" />
+	<InputText @bind-Value="novoCliente.Telefone" placeholder="Telefone" />
+	<InputText @bind-Value="novoCliente.Celular" placeholder="Celular" />
+	<InputText @bind-Value="novoCliente.Habilitacao" placeholder="Habilitação" />
+	<InputText @bind-Value="novoCliente.CategoriaHabilitacao" placeholder="Categoria Habilitação" />
+	<InputText @bind-Value="novoCliente.Email" placeholder="Email" />
+	<InputDate @bind-Value="novoCliente.DataNascimento" placeholder="Data de nascimento" />
+	<InputText @bind-Value="novoCliente.Senha" placeholder="Senha" type="password" />
+	<button type="submit">Adicionar Cliente</button>
+</EditForm>
+
+
+<!-- Listar os clientes -->
+<h2>Lista de Clientes</h2>
+
+@if (clientes == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Email</th>
+				<th>CPF</th>
+				<th>Endereço</th>
+				<th>Telefone</th>
+				<th>Celular</th>
+				<th>Habilitação</th>
+				<th>Categoria Habilitação</th>
+				<th>Data de Nascimento</th>
+				<th>Senha</th>
+				<th>Editar</th>
+				<th>Deletar</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var cliente in clientes)
+			{
+				<tr>
+					<td>@cliente.Nome</td>
+					<td>@cliente.Email</td>
+					<td>@cliente.Cpf</td>
+					<td>@cliente.Endereco</td>
+					<td>@cliente.Telefone</td>
+					<td>@cliente.Celular</td>
+					<td>@cliente.Habilitacao</td>
+					<td>@cliente.CategoriaHabilitacao</td>
+					<td>@cliente.DataNascimento.ToString("dd/MM/yyyy")</td>
+					<td>@cliente.Senha</td>
+					<td>
+						<button class="btn btn-outline-primary" @onclick="() => EditClient(cliente)">Editar</button>
+					</td>
+					<td>
+						<button class="btn btn-outline-danger" @onclick="() => DeleteClient(cliente)">Deletar</button>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private Cliente novoCliente = new Cliente(
+		id: 0,
+		cpf: string.Empty,
+		nome: string.Empty,
+		endereco: string.Empty,
+		telefone: null,
+		celular: string.Empty,
+		habilitacao: string.Empty,
+		categoriaHabilitacao: string.Empty,
+		locacoes: new Collection<Locacao>(),
+		email: null,
+		dataNascimento: DateTime.Today,
+		senha: string.Empty
+		);
+
+	private List<Cliente> clientes;
+
+	protected override void OnInitialized()
+	{
+		clientes = ClienteService.Clientes;
+	}
+
+	private void CreateClient()
+	{
+		ClienteService.Clientes.Add(novoCliente);
+		novoCliente = new Cliente(
+			id: 0,
+			cpf: string.Empty,
+			nome: string.Empty,
+			endereco: string.Empty,
+			telefone: null,
+			celular: string.Empty,
+			habilitacao: string.Empty,
+			categoriaHabilitacao: string.Empty,
+			locacoes: new Collection<Locacao>(),
+			email: null,
+			dataNascimento: DateTime.Today,
+			senha: string.Empty
+			); // para limpar o formulário após a submissão
+
+		clientes = ClienteService.Clientes; // atualizar a lista de clientes
+	}
+
+	private void EditClient(Cliente cliente)
+	{
+		// Aqui podemos abrir um novo form para edição ou alterar direto no cliente
+		// No exemplo simples abaixo, vamos apenas alterar o nome
+		cliente.Nome = "Nome alterado";
+	}
+
+	private void DeleteClient(Cliente cliente)
+	{
+		ClienteService.Clientes.Remove(cliente);
+		clientes = ClienteService.Clientes; // atualizar a lista de clientes
+	}
+}

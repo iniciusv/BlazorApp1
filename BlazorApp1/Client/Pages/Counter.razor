@@ -1,0 +1,85 @@
+﻿@page "/counter"
+@using BlazorApp1.Client.Services
+@using BlazorApp1.Client.Entities
+@using System.Collections.ObjectModel;
+@inject ClienteService ClienteService
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @ClienteService.Clientes.Count</p>
+
+<EditForm Model="cliente" OnValidSubmit="CreateClient">
+    <div class="form-group">
+        <label for="nome">Nome:</label>
+        <InputText id="nome" @bind-Value="cliente.Nome" class="form-control" />
+
+        <label for="cpf">CPF:</label>
+        <InputText id="cpf" @bind-Value="cliente.Cpf" class="form-control" />
+
+        <label for="endereco">Endereço:</label>
+        <InputText id="endereco" @bind-Value="cliente.Endereco" class="form-control" />
+
+        <label for="telefone">Telefone:</label>
+        <InputText id="telefone" @bind-Value="cliente.Telefone" class="form-control" />
+
+        <label for="celular">Celular:</label>
+        <InputText id="celular" @bind-Value="cliente.Celular" class="form-control" />
+
+        <label for="habilitacao">Habilitação:</label>
+        <InputText id="habilitacao" @bind-Value="cliente.Habilitacao" class="form-control" />
+
+        <label for="categoriaHabilitacao">Categoria Habilitação:</label>
+        <InputText id="categoriaHabilitacao" @bind-Value="cliente.CategoriaHabilitacao" class="form-control" />
+
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="cliente.Email" class="form-control" />
+
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <InputDate id="dataNascimento" @bind-Value="cliente.DataNascimento" class="form-control" />
+
+
+        <label for="senha">Senha:</label>
+        <InputText id="senha" @bind-Value="cliente.Senha" class="form-control" size/>
+
+        <button type="submit" class="btn btn-primary">Click me</button>
+    </div>
+</EditForm>
+
+@code {
+    private Cliente cliente = new Cliente(
+     id: 0,  // Você pode precisar modificar este valor com base em sua lógica de aplicativo
+     cpf: string.Empty,
+     nome: string.Empty,
+     endereco: string.Empty,
+     telefone: null,
+     celular: string.Empty,
+     habilitacao: string.Empty,
+     categoriaHabilitacao: string.Empty,
+     locacoes: new Collection<Locacao>(),
+     email: null,
+     dataNascimento: DateTime.Today,  // Você pode precisar modificar este valor com base em sua lógica de aplicativo
+     senha: string.Empty
+     );
+
+
+    private void CreateClient()
+    {
+        ClienteService.Clientes.Add(cliente);
+        cliente = new Cliente(
+         id: 0,  // Você pode precisar modificar este valor com base em sua lógica de aplicativo
+         cpf: string.Empty,
+         nome: string.Empty,
+         endereco: string.Empty,
+         telefone: null,
+         celular: string.Empty,
+         habilitacao: string.Empty,
+         categoriaHabilitacao: string.Empty,
+         locacoes: new Collection<Locacao>(),
+         email: null,
+         dataNascimento: DateTime.Today,  // Você pode precisar modificar este valor com base em sua lógica de aplicativo
+         senha: string.Empty
+         ); // para limpar o formulário após a submissão
+    }
+}

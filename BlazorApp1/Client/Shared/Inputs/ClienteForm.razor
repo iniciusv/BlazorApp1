@@ -1,0 +1,114 @@
+﻿@using BlazorApp1.Client.Entities;
+@using System.Collections.ObjectModel;
+<!-- ClienteForm.razor -->
+
+<LabInputText Id="nomeCliente"
+			  Tip="Digite seu nome completo"
+			  PlaceHolder="Nome"
+			  Label="Nome"
+@bind-Value="nome"
+			  Size="formSize" />
+
+<LabInputText Id="cpfCliente"
+			  Tip="Digite seu CPF"
+			  PlaceHolder="CPF"
+			  Label="CPF"
+@bind-Value="cpf"
+			  Size="formSize" />
+
+<LabInputText Id="enderecoCliente"
+			  Tip="Digite seu endereço"
+			  PlaceHolder="Endereço"
+			  Label="Endereço"
+@bind-Value="endereco"
+			  Size="formSize" />
+
+<LabInputText Id="telefoneCliente"
+			  Tip="Digite seu telefone (opcional)"
+			  PlaceHolder="Telefone"
+			  Label="Telefone"
+@bind-Value="telefone"
+			  Size="formSize" />
+
+<LabInputText Id="celularCliente"
+			  Tip="Digite seu celular"
+			  PlaceHolder="Celular"
+			  Label="Celular"
+@bind-Value="celular"
+			  Size="formSize" />
+
+<LabInputText Id="habilitacaoCliente"
+			  Tip="Digite sua habilitação"
+			  PlaceHolder="Habilitação"
+			  Label="Habilitação"
+@bind-Value="habilitacao"
+			  Size="formSize" />
+
+<LabInputText Id="categoriaHabilitacaoCliente"
+			  Tip="Digite a categoria da sua habilitação"
+			  PlaceHolder="Categoria Habilitação"
+			  Label="Categoria Habilitação"
+@bind-Value="categoriaHabilitacao"
+			  Size="formSize" />
+
+<LabInputText Id="emailCliente"
+			  Tip="Digite seu email"
+			  PlaceHolder="Email"
+			  Label="Email"
+@bind-Value="email"
+			  Size="formSize" />
+
+<LabInputDate Id="dataNascimentoCliente"
+			  Tip="Digite sua data de nascimento"
+			  PlaceHolder="Data de nascimento"
+			  Label="Data de nascimento"
+@bind-Value="dataNascimento"
+			  Size="formSize" />
+
+<LabInputText Id="senhaCliente"
+			  Tip="Digite sua senha"
+			  PlaceHolder="Senha"
+			  Label="Senha"
+@bind-Value="senha"
+			  Size="formSize" />
+
+
+<button class="btn btn-outline-dark" @onclick="CadastrarCliente">Cadastrar</button>
+
+@code {
+	int formSize = 6;
+	string nome;
+	string cpf;
+	string endereco;
+	string telefone;
+	string celular;
+	string habilitacao;
+	string categoriaHabilitacao;
+	string email;
+	DateTime dataNascimento;
+	string senha;
+
+
+	List<Cliente> clientes = new List<Cliente>();
+
+	void CadastrarCliente()
+	{
+		Cliente novoCliente = new Cliente(
+			id: 0, // aqui você pode usar algum contador ou método para gerar um ID único
+			cpf: cpf,
+			nome: nome,
+			endereco: endereco,
+			telefone: telefone,
+			celular: celular,
+			habilitacao: habilitacao,
+			categoriaHabilitacao: categoriaHabilitacao,
+			locacoes: new Collection<Locacao>(), // instância vazia de Collection<Locacao>
+			email: email,
+			dataNascimento: dataNascimento,
+			senha: senha
+		);
+
+		clientes.Add(novoCliente);
+	}
+
+}

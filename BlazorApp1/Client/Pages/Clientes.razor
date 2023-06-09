@@ -1,0 +1,32 @@
+﻿@page "/clientes"
+@inject ClienteService ClienteService
+@using BlazorApp1.Client.Services;
+
+<PageTitle>Clientes</PageTitle>
+
+<h1>Clientes</h1>
+
+@if (ClienteService.Clientes.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in ClienteService.Clientes)
+            {
+                <tr>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nenhum cliente foi criado ainda.</p>
+}
