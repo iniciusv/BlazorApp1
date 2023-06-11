@@ -9,205 +9,38 @@
 
 <h1>Gerenciar Usuários</h1>
 
-<div class="container">
-	<div class="row">
-<EditForm Model="novoCliente" OnValidSubmit="CreateClient">
-	<LabInputText Id="nomeCliente"
-				  Label="Nome"
-				  Tip="Digite seu nome completo"
-				  PlaceHolder="Nome"
-				  Size="@size"
-	@bind-Value="novoCliente.Nome" />
 
-	<LabInputText Id="emailCliente"
-				  Label="Email"
-				  Tip="Digite seu email"
-				  PlaceHolder="Email"
-				  Size="@size"
-	@bind-Value="novoCliente.Email" />
+		<ClienteForm></ClienteForm>
 
-	<LabInputText Id="cpfCliente"
-				  Label="CPF"
-				  Tip="Digite seu CPF"
-				  PlaceHolder="CPF"
-				  Size="@size"
-	@bind-Value="novoCliente.Cpf" />
-
-	<LabInputText Id="enderecoCliente"
-				  Label="Endereço"
-				  Tip="Digite seu endereço"
-				  PlaceHolder="Endereço"
-				  Size="@size"
-	@bind-Value="novoCliente.Endereco" />
-
-	<LabInputText Id="telefoneCliente"
-				  Label="Telefone"
-				  Tip="Digite seu telefone"
-				  PlaceHolder="Telefone"
-				  Size="@size"
-	@bind-Value="novoCliente.Telefone" />
-
-	<LabInputText Id="celularCliente"
-				  Label="Celular"
-				  Tip="Digite seu celular"
-				  PlaceHolder="Celular"
-				  Size="@size"
-	@bind-Value="novoCliente.Celular" />
-
-	<LabInputText Id="habilitacaoCliente"
-				  Label="Habilitação"
-				  Tip="Digite sua habilitação"
-				  PlaceHolder="Habilitação"
-				  Size="@size"
-	@bind-Value="novoCliente.Habilitacao" />
-
-	<LabInputText Id="categoriaHabilitacaoCliente"
-				  Label="Categoria Habilitação"
-				  Tip="Digite a categoria da sua habilitação"
-				  PlaceHolder="Categoria Habilitação"
-				  Size="@size"
-	@bind-Value="novoCliente.CategoriaHabilitacao" />
-
-	<LabInputText Id="emailCliente"
-				  Label="Email"
-				  Tip="Digite seu email"
-				  PlaceHolder="Email"
-				  Size="@size"
-	@bind-Value="novoCliente.Email" />
-
-	<LabInputDate Id="dataNascimentoCliente"
-				  Label="Data de Nascimento"
-				  Tip="Digite sua data de nascimento"
-				  PlaceHolder="Data de nascimento"
-				  Size="@size"
-	@bind-Value="novoCliente.DataNascimento" />
-
-	@*<InputText @bind-Value="novoCliente.Senha" placeholder="Senha" type="password" />*@
-	<LabInputText Id="senhaCliente"
-				  Label="Senha"
-				  Tip="Digite sua senha"
-				  PlaceHolder="Senha"
-				  Size="@size"
-	@bind-Value="novoCliente.Senha" />
-
-
-	<button type="submit">Adicionar Cliente</button>
-</EditForm>
-	</div>
-</div>
 
 <!-- Listar os clientes -->
 <h2>Lista de Clientes</h2>
 
-@if (clientes == null)
-{
-	<p><em>Loading...</em></p>
-}
-else
+@if (ClienteService.Clientes.Any())
 {
 	<table class="table">
 		<thead>
 			<tr>
 				<th>Nome</th>
 				<th>Email</th>
-				<th>CPF</th>
-				<th>Endereço</th>
-				<th>Telefone</th>
-				<th>Celular</th>
-				<th>Habilitação</th>
-				<th>Categoria Habilitação</th>
-				<th>Data de Nascimento</th>
-				<th>Senha</th>
-				<th>Editar</th>
-				<th>Deletar</th>
-				<th></th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var cliente in clientes)
+			@foreach (var cliente in ClienteService.Clientes)
 			{
 				<tr>
 					<td>@cliente.Nome</td>
 					<td>@cliente.Email</td>
-					<td>@cliente.Cpf</td>
-					<td>@cliente.Endereco</td>
-					<td>@cliente.Telefone</td>
-					<td>@cliente.Celular</td>
-					<td>@cliente.Habilitacao</td>
-					<td>@cliente.CategoriaHabilitacao</td>
-					<td>@cliente.DataNascimento.ToString("dd/MM/yyyy")</td>
-					<td>@cliente.Senha</td>
-					<td>
-						<button class="btn btn-outline-primary" @onclick="() => EditClient(cliente)">Editar</button>
-					</td>
-					<td>
-						<button class="btn btn-outline-danger" @onclick="() => DeleteClient(cliente)">Deletar</button>
-					</td>
-
 				</tr>
 			}
 		</tbody>
 	</table>
 }
+else
+{
+	<p>Nenhum cliente foi criado ainda.</p>
+}
 
 @code {
-	int size = 3;
-
-
-	private Cliente novoCliente = new Cliente(
-		id: 0,
-		cpf: string.Empty,
-		nome: string.Empty,
-		endereco: string.Empty,
-		telefone: null,
-		celular: string.Empty,
-		habilitacao: string.Empty,
-		categoriaHabilitacao: string.Empty,
-		locacoes: new Collection<Locacao>(),
-		email: null,
-		dataNascimento: DateTime.Today,
-		senha: string.Empty
-		);
-
-	private List<Cliente> clientes;
-
-	protected override void OnInitialized()
-	{
-		clientes = ClienteService.Clientes;
-	}
-
-	private void CreateClient()
-	{
-		ClienteService.Clientes.Add(novoCliente);
-		novoCliente = new Cliente(
-			id: 99,
-			cpf: string.Empty,
-			nome: string.Empty,
-			endereco: string.Empty,
-			telefone: null,
-			celular: string.Empty,
-			habilitacao: string.Empty,
-			categoriaHabilitacao: string.Empty,
-			locacoes: new Collection<Locacao>(),
-			email: null,
-			dataNascimento: DateTime.Today,
-			senha: string.Empty
-			); // para limpar o formulário após a submissão
-
-		clientes = ClienteService.Clientes; // atualizar a lista de clientes
-	}
-
-	private void EditClient(Cliente cliente)
-	{
-		// Aqui podemos abrir um novo form para edição ou alterar direto no cliente
-		// No exemplo simples abaixo, vamos apenas alterar o nome
-		cliente.Nome = "Nome alterado";
-	}
-
-	private void DeleteClient(Cliente cliente)
-	{
-		ClienteService.Clientes.Remove(cliente);
-		clientes = ClienteService.Clientes; // atualizar a lista de clientes
-	}
+	
 }
